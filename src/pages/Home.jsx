@@ -7,6 +7,7 @@ import Alumni from '../components/Alumni'
 import Events from '../components/Events'
 import Contest from '../components/Contest'
 import Blog from '../components/Blog'
+import JoinUs from '../components/JoinUs'
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <Events />
       <Contest />
       <Blog />
+      <JoinUs />
     </div>
   )
 }

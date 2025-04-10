@@ -33,7 +33,10 @@ const Blog = () => {
   return (
     <div className='w-full flex justify-center py-15'>
         <div className='px-5 lg:px-5 w-full lg:w-[85%]'>
-            <h2 className='text-center text-2xl text-slate-950 font-semibold px-5 mb-8'>Blogs</h2>
+            <div className='mb-5 flex flex-col items-center gap-2'>
+                <h3 className='text-[20px] text-center font-semibold'>BLOGS</h3>
+                <hr className='w-[140px] border border-orange-500'/>
+            </div>
             <div className='w-full flex flex-wrap justify-center gap-5'>
                 {
                     contents.map((content, index) => (

@@ -14,6 +14,7 @@ import member2 from '../assets/Members/member-2.jpg'
 import member3 from '../assets/Members/member-3.jpg'
 import member4 from '../assets/Members/member-4.jpg'
 import member5 from '../assets/Members/member-5.jpg'
+import GalleryGrid from '../components/GalleryGrid';
 
 
 const About = () => {
@@ -59,6 +60,13 @@ const About = () => {
                         <p className='text-sm mt-1'>We select and send top programmers to IUCP, ICPC, and other prestigious competitions, helping them compete at higher levels.</p>
                     </div>
                 </div>
+            </div>
+            <div className='mt-10 w-full'>
+                <div className='mb-5 flex flex-col items-center gap-2'>
+                    <h3 className='text-2xl text-center font-semibold'>EVENTS GALLERY</h3>
+                    <hr className='w-[260px] border border-orange-500'/>
+                </div>
+                <GalleryGrid />
             </div>
             <div className='mt-10 w-full'>
                 <div className='mb-5 flex flex-col items-center gap-2'>

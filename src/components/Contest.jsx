@@ -6,7 +6,10 @@ const Contest = () => {
   return (
     <div className='w-full bg-gray-100 flex justify-center py-15'>
         <div className='w-full lg:w-[85%]'>
-            <h2 className='text-center text-2xl text-slate-950 font-semibold px-5 mb-8'>Contest Tracker</h2>
+            <div className='mb-5 flex flex-col items-center gap-2'>
+                <h3 className='text-[20px] text-center font-semibold'>CONTEST TRACKER</h3>
+                <hr className='w-[260px] border border-orange-500'/>
+            </div>
             <div className='mt-10 w-full px-5 lg:px-0 flex flex-wrap items-center justify-center gap-5'>
                 <div className='w-full md:w-[260px] border p-5 rounded-sm'>
                     <img className='w-full' src={cf} alt="" />

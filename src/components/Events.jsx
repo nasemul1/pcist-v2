@@ -9,7 +9,10 @@ const Events = () => {
   return (
     <div className='flex items-center justify-center'>
         <div className="py-15 w-full lg:w-[85%]">
-            <h2 className='text-center text-2xl text-slate-950 font-semibold px-5 mb-8'>Upcoming Events</h2>
+            <div className='mb-5 flex flex-col items-center gap-2'>
+                <h3 className='text-[20px] text-center font-semibold'>UPCOMING EVENTS</h3>
+                <hr className='w-[260px] border border-orange-500'/>
+            </div>
             <div className='mt-10 px-5 lg:px-0 flex flex-wrap items-center justify-center gap-5'>
                 <div className='w-full md:w-[260px] shadow-xl p-3 rounded-lg overflow-hidden'>
                     <img className='w-full rounded-md' src={coc} alt="" />
