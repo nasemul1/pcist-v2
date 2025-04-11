@@ -1,29 +1,30 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import img from '../assets/hero.jpg'
 
 const Blog = () => {
 
     const contents = [
         {
-          img: "https://www.material-tailwind.com/image/blog-11.jpeg",
+          img: img,
           author: "John Doe",
           title: "Search and Discovery",
           desc: "Website visitors today demand a frictionless user expericence — especially when using search. Because of the hight standards we tend to offer.",
         },
         {
-          img: "https://demos.creative-tim.com/material-kit-pro/assets/img/examples/card-blog2.jpg",
+          img: img,
           author: "John Doe",
           title: "Grow in a beautiful area",
           desc: "Free people make free choices. Free choices mean you get unequal outcomes. You can have freedom, or you can have equal outcomes. You can't have both.",
         },
         {
-          img: "https://www.material-tailwind.com/image/blog-10.jpeg",
+          img: img,
           author: "John Doe",
           title: "Last visits in US",
           desc: "Wealth creation is an evolutionarily recent positive-sum game. Status is an old zero-sum game. Those attacking wealth creation are often just seeking status.",
         },
         {
-          img: "https://demos.creative-tim.com/material-kit-pro/assets/img/examples/card-blog2.jpg",
+          img: img,
           author: "John Doe",
           title: "Grow in a beautiful area",
           desc: "Free people make free choices. Free choices mean you get unequal outcomes. You can have freedom, or you can have equal outcomes. You can't have both.",

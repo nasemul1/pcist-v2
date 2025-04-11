@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className='relative w-full h-16 bg-[#15191A] text-white'>
         <div className='h-[40%] bg-orange-500 w-full flex items-center text-sm'>
           <Marquee pauseOnHover gradient={false} speed={50}>
-            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
+            <span>🚧 Under construction 🚧</span>
           </Marquee>
         </div>
         <div className='h-[60%] px-5 flex items-center justify-end lg:justify-between'>
