@@ -15,21 +15,13 @@ import member3 from '../assets/Members/member-3.jpg'
 import member4 from '../assets/Members/member-4.jpg'
 import member5 from '../assets/Members/member-5.jpg'
 import GalleryGrid from '../components/GalleryGrid';
+import ComponentHeader from '../components/ComponentHeader';
 
 
 const About = () => {
   return (
     <div className='w-full'>
-        <div style={{backgroundImage: `url(${aboutImg})`}} className='w-full h-[320px] bg-cover bg-center'>
-            <div className='w-full h-full bg-black/60 flex flex-col items-center justify-center'>
-                <h2 className='pt-[72px] text-4xl text-white font-semibold'>About Us</h2>
-                <div className='text-white text-sm flex gap-2 mt-2'>
-                    <Link to='/' className='hover:text-orange-400'>Home</Link>
-                    <span>-</span>
-                    <Link to='/about' className='hover:text-orange-400'>About Us</Link>
-                </div>
-            </div>
-        </div>
+        <ComponentHeader title="About Us" route="About" />
         <div className='w-full lg:w-[85%] mx-auto py-10 px-5 lg:px-0 flex flex-col items-center justify-center gap-5'>
             <p className='text-justify'>Founded in 2007, pcIST is a thriving programming club committed to fostering a community of passionate coders and technology enthusiasts. Based at the Institute of Science and Technology, Dhanmondi, we strive to equip students with the essential skills, knowledge, and confidence to excel in the ever-evolving world of programming and technology. At pcIST, we believe in learning through experience. We organize a diverse range of activities, including hands-on coding workshops, competitive programming contests, technical seminars, and exciting tech fests. These initiatives create a dynamic environment where students can enhance their problem-solving skills, collaborate with like-minded peers, and stay ahead of emerging technologies. Whether you're a beginner taking your first steps into programming or an experienced coder looking to sharpen your skills, pcIST welcomes you to be a part of this journey of innovation and growth. Together, we code, compete, and create the future!</p>
             <div className='mt-10 w-full'>
