@@ -7,6 +7,8 @@ import Footer from './components/Footer'
 import BlogList from './pages/BlogList'
 import SingleBlog from './components/SingleBlog'
 import UpcomingEvents from './pages/UpcomingEvents'
+import ContestTracker from './pages/ContestTracker'
+import Contact from './pages/Contact'
 
 const App = () => {
   return (
@@ -18,6 +20,8 @@ const App = () => {
         <Route path='/blog' element={<BlogList />}></Route>
         <Route path='/blog/:id' element={<SingleBlog />}></Route>
         <Route path='/events' element={<UpcomingEvents />}></Route>
+        <Route path='/contest' element={<ContestTracker />}></Route>
+        <Route path='/contact' element={<Contact />}></Route>
       </Routes>
       <Footer />
     </div>

@@ -10,7 +10,7 @@ const UpcomingEvents = () => {
   return (
     <div className='w-full'>
         <ComponentHeader title="Upcoming Events" route="Events" />
-        <div className='w-full lg:w-[85%] mx-auto py-10 px-5 lg:px-0'>
+        <div className='w-full lg:w-[85%] max-w-[1200px] mx-auto py-10 px-5 lg:px-0'>
           <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
             <div className='w-full md:w-[260px] shadow-xl p-3 rounded-lg overflow-hidden'>
                 <img className='w-full rounded-md' src={bob} alt="" />
