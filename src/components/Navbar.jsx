@@ -1,18 +1,30 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import logo from '../assets/logo.svg'
 import { NavLink } from 'react-router-dom'
 import Marquee from "react-fast-marquee";
+import { UserContext } from '../context/UserContext';
 
 const Navbar = () => {
 
+  const { handleLogout, isLogged, setIsLogged } = useContext(UserContext);
+
+  const token = localStorage.getItem('token');
   const [isOpen, setIsOpen] = useState(false);
+  
+  useEffect(() => {
+    if(token){
+      setIsLogged(true);
+    } else{
+      setIsLogged(false);
+    }
+  }, [token, isLogged]);
 
   const handleClick = () =>{
     setIsOpen(!isOpen);
   }
 
   return (
-    <nav className='fixed z-10 top-0 lg:top-2 lg:rounded-sm lg:overflow-hidden shadow-lg left-1/2 -translate-x-1/2 w-full lg:w-[85%] flex items-center'>
+    <nav className='fixed z-10 top-0 lg:top-2 lg:rounded-sm lg:overflow-hidden shadow-lg left-1/2 -translate-x-1/2 w-full lg:w-[85%] mx-auto max-w-[1920px] flex items-center'>
       <div className='bg-white p-1'>
         <NavLink to='/'><img src={logo} className='size-14' alt="logo" /></NavLink>
       </div>
@@ -29,11 +41,15 @@ const Navbar = () => {
             <NavLink to='/blog' >Blog</NavLink>
             <NavLink to='/events' >Events</NavLink>
             <NavLink to='/contest' >Contest Tracker</NavLink>
+            {isLogged && <NavLink to='/roadmaps' >Roadmaps</NavLink>}
+            {isLogged && <NavLink to='/resources' >Study Resources</NavLink>}
             <NavLink to='/contact' >Contact</NavLink>
           </div>
           <div className='flex items-center gap-5 text-sm'>
-            <NavLink to='/login' >Login</NavLink>
-            <NavLink to='/register' className='hidden lg:block'>Register</NavLink>
+            {isLogged === false && <NavLink to='/login' >Login</NavLink>}
+            {isLogged === false && <NavLink to='/register' className='hidden lg:block'>Register</NavLink>}
+            {isLogged && <NavLink to='/profile' >Profile</NavLink>}
+            {isLogged && <p onClick={handleLogout} className='text-red-400 cursor-pointer'>Logout</p>}
             <div onClick={handleClick} className='block lg:hidden border rounded-full p-1'>
               { 
                 isOpen===false && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
@@ -55,6 +71,8 @@ const Navbar = () => {
             <NavLink to='/gallery' >Gallery</NavLink>
             <NavLink to='/events' >Events</NavLink>
             <NavLink to='/contest' >Contest Tracker</NavLink>
+            {isLogged && <NavLink to='/roadmaps' >Roadmaps</NavLink>}
+            {isLogged && <NavLink to='/resources' >Study Resources</NavLink>}
             <NavLink to='/contact' >Contact</NavLink>
           </div>
         }

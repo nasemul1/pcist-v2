@@ -11,12 +11,16 @@ import ContestTracker from './pages/ContestTracker'
 import Contact from './pages/Contact'
 import Login from './pages/auth-folder/Login'
 import Register from './pages/auth-folder/Register'
+import EmailVerification from './pages/auth-folder/EmailVerification'
+import AddInformation from './pages/auth-folder/AddInformation'
+import OjHelp from './pages/auth-folder/OjHelp'
+import Profile from './pages/Profile'
 
 const App = () => {
 
   const location = useLocation();
 
-  const hideNavbarRoutes = ['/login', '/register'];
+  const hideNavbarRoutes = ['/login', '/register', '/mail-verify', '/add-information', '/oj-help'];
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
@@ -29,8 +33,12 @@ const App = () => {
         <Route path='/blog/:id' element={<SingleBlog />}></Route>
         <Route path='/events' element={<UpcomingEvents />}></Route>
         <Route path='/contest' element={<ContestTracker />}></Route>
-        <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/mail-verify' element={<EmailVerification />}></Route>
+        <Route path='/add-information' element={<AddInformation />}></Route>
+        <Route path='/oj-help' element={<OjHelp />}></Route>
+        <Route path='/profile' element={<Profile />}></Route>
         <Route path='/contact' element={<Contact />}></Route>
       </Routes>
       {!shouldHideNavbar && <Footer />}
