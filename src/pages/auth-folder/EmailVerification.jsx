@@ -13,6 +13,7 @@ const EmailVerification = () => {
   const { url, didSendCode } = useContext(UserContext);
   const token = localStorage.getItem('token');
   const slug = localStorage.getItem('slug');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!token || !slug) {
@@ -21,6 +22,7 @@ const EmailVerification = () => {
   }, [token, slug, navigate]);
 
   const sendVerificationCode = async () => {
+
     try {
       const response = await axios.post(
         `${url}/user/send-verification-email`,
@@ -87,6 +89,9 @@ const EmailVerification = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!slug || !code) return;
+    setLoading(true);
+
     try{
       const response = await axios.post(
         `${url}/user/verify-user`,
@@ -111,6 +116,8 @@ const EmailVerification = () => {
         error.response?.data?.message || 'Something went wrong.';
       console.error('Error sending code:', errorMsg);
       setMessage(errorMsg);
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -146,9 +153,10 @@ const EmailVerification = () => {
           />
           <button
             type="submit"
+            disabled={loading}
             className="bg-[#FF6900] hover:bg-[#FF6900]/90 text-white font-bold py-2 px-6 rounded-md transition-all duration-200"
           >
-            Verify
+            { loading ? 'loading...' : 'Verify'}
           </button>
         </form>
 
