@@ -14,7 +14,7 @@ const ComAbout = () => {
           <h2 className="text-3xl 2xl:text-5xl text-slate-950 font-semibold">About Us</h2>
           <p className='mt-3 text-sm 2xl:text-[20px] text-justify'>Founded in 2007, pcIST is a thriving programming club dedicated to nurturing the next generation of tech enthusiasts. Based in Institute of Science and Technology, Dhanmondi, we are passionate about empowering students with the skills and knowledge they need to excel in the world of programming and technology.<span className='inline-block lg:hidden'>..</span> <br /><span className='hidden lg:block'><br /> At pcIST, we organize a wide range of activities, including hands-on courses, coding contests, technical seminars, and vibrant tech fests. Our goal is to create a dynamic learning environment where students can sharpen their problem-solving skills, collaborate with like-minded peers, and stay...</span></p>
           <div className='mt-5'>
-            <Link to='/about' className='px-5 py-2 text-xs md:text-sm 2xl:text-[20px] bg-amber-500 rounded-xs'>Read More</Link>
+            <Link to='/about' className='px-5 py-2 text-xs md:text-sm 2xl:text-[20px] text-white bg-orange-500 rounded-xs'>Read More</Link>
           </div>
         </div>
       </div>
