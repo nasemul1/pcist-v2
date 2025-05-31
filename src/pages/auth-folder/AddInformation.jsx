@@ -111,12 +111,12 @@ const AddInformation = () => {
           onSubmit={handleSubmit}
           className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 overflow-y-auto px-2 md:px-4"
         >
-          <Input label="Full Name" name="name" value={formData.name} onChange={handleChange} required />
-          <Input label="Phone" name="phone" value={formData.phone} onChange={handleChange} required />
-          <Select label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={['Male', 'Female', 'Other']} />
-          <Select label="T-Shirt Size" name="tshirt" value={formData.tshirt} onChange={handleChange} options={['S', 'M', 'L', 'XL', 'XXL']} />
-          <Input label="Batch (Ex: 28,29,30,31)" name="batch" type="number" value={formData.batch} onChange={handleChange} required />
-          <Select label="Department" name="dept" value={formData.dept} onChange={handleChange} options={['CSE', 'EEE', 'BBA', 'DIPLOMA']} />
+          <Input label="Full Name* " name="name" value={formData.name} onChange={handleChange} required />
+          <Input label="Phone*" name="phone" value={formData.phone} onChange={handleChange} required />
+          <Select label="Gender*" name="gender" value={formData.gender} onChange={handleChange} options={['Male', 'Female', 'Other']} required />
+          <Select label="T-Shirt Size*" name="tshirt" value={formData.tshirt} onChange={handleChange} options={['S', 'M', 'L', 'XL', 'XXL']} required/>
+          <Input label="Batch* (Ex: 28,29,30,31)" name="batch" type="number" value={formData.batch} onChange={handleChange} required />
+          <Select label="Department*" name="dept" value={formData.dept} onChange={handleChange} options={['CSE', 'EEE', 'BBA', 'DIPLOMA']} required/>
           <Input label="Codeforces Handle" name="cfhandle" value={formData.cfhandle} onChange={handleChange} />
           <Input label="AtCoder Handle" name="atchandle" value={formData.atchandle} onChange={handleChange} />
           <Input label="CodeChef Handle" name="cchandle" value={formData.cchandle} onChange={handleChange} />

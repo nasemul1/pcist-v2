@@ -15,6 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [passShow, setPassShow] = useState(true);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // Auto‐hide error after 5 seconds
   useEffect(() => {
@@ -26,6 +27,10 @@ const Login = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     setMessage('');
+
+    if (!classroll || !password) return;
+    setLoading(true);
+
     try {
       const response = await axios.post(url + '/user/login', { classroll, password });
       // console.log(response.data.user.email);
@@ -39,6 +44,8 @@ const Login = () => {
     } catch (error) {
       console.error(error);
       setMessage('Something went wrong. Please try again.');
+    } finally{
+      setLoading(false);
     }
   }
 
@@ -103,9 +110,10 @@ const Login = () => {
             {/* Buttons */}
             <button
               type="submit"
+              disabled={loading}
               className='cursor-pointer pl-4 pr-4 pt-2 pb-2 w-3/4 text-white font-bold bg-[#020618] hover:bg-[#020618]/75 border-0 rounded-sm'
             >
-              Login
+              { loading ? "loading..." : "Login"}
             </button>
             <button
               type="button"
