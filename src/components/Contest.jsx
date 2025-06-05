@@ -1,5 +1,5 @@
 import React from 'react'
-import cf from '../assets/logo/codeforces.png'
+import cf from '../assets/logo/oj-logo/codeforces.png'
 import { Link } from 'react-router-dom'
 
 const Contest = () => {
