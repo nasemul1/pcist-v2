@@ -4,6 +4,7 @@ export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
 	const url = import.meta.env.VITE_BACKEND_URL;
+	const upcoming_contest_url = import.meta.env.VITE_CONTEST_URL;
 
 	const [tokenCon, setTokenCon] = useState(false);
 	const didSendCode = useRef(false); // <-- flag to prevent double send
@@ -22,7 +23,8 @@ const UserContextProvider = (props) => {
 		setTokenCon,
 		handleLogout,
 		isLogged, setIsLogged,
-		token
+		token,
+		upcoming_contest_url
 	};
 
 	return (
