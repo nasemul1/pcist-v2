@@ -1,4 +1,5 @@
-import { createContext, useRef, useState } from "react";
+import axios from "axios";
+import { createContext, useEffect, useRef, useState } from "react";
 
 export const UserContext = createContext();
 
@@ -10,6 +11,28 @@ const UserContextProvider = (props) => {
 	const didSendCode = useRef(false); // <-- flag to prevent double send
 	const [isLogged, setIsLogged] = useState(false);
 	const token = localStorage.getItem('token');
+	
+	const [contests, setContests] = useState([]);
+
+	const [cloading, setCloading] = useState(true);
+	const [cmessage, setCmessage] = useState('');
+
+	const getContestData = async () => {
+		try{
+
+			const response = await axios.get(upcoming_contest_url);
+			setContests(response.data);
+			setCloading(false);
+
+		} catch (error) {
+			setCmessage('Error getting contest data.');
+		}
+
+	}
+
+	useEffect(() => {
+		getContestData();
+	},[]);
 
 	const handleLogout = () => {
 		localStorage.removeItem('slug');
@@ -17,14 +40,16 @@ const UserContextProvider = (props) => {
 		setIsLogged(false);
 	}
 
-
 	const value = {
 		url, tokenCon, didSendCode,
 		setTokenCon,
 		handleLogout,
 		isLogged, setIsLogged,
 		token,
-		upcoming_contest_url
+		upcoming_contest_url,
+		contests, setContests,
+		cmessage, setCmessage,
+		cloading, setCloading
 	};
 
 	return (
