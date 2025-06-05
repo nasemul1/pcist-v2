@@ -118,7 +118,7 @@ const AddInformation = () => {
           <Input label="Batch* (Ex: 28,29,30,31)" name="batch" type="number" value={formData.batch} onChange={handleChange} required />
           <Select label="Department*" name="dept" value={formData.dept} onChange={handleChange} options={['CSE', 'EEE', 'BBA', 'DIPLOMA']} required/>
           <Input label="Codeforces Handle" name="cfhandle" value={formData.cfhandle} onChange={handleChange} />
-          <Input label="AtCoder Handle" name="atchandle" value={formData.atchandle} onChange={handleChange} />
+          <Input label="AtCoder Handle" name="atchandle" value={formData.atchandle} onChange={handleChange} n/>
           <Input label="CodeChef Handle" name="cchandle" value={formData.cchandle} onChange={handleChange} />
 
           <div className='flex items-center'>

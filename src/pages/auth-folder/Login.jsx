@@ -123,8 +123,10 @@ const Login = () => {
               Back
             </button>
 
+            <Link to='/send-forgot-pass-code' className='mt-3 text-gray-600' >Forgot password?</Link>
+
             {/* Links */}
-            <div className='mt-6'>
+            <div className='mt-2'>
               <Link to='/' className='text-[#FF6900]'>Home</Link>
               <span className='mx-2'>|</span>
               <Link to='/register' className='text-[#FF6900]'>Create a new account</Link>

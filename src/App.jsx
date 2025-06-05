@@ -15,12 +15,14 @@ import EmailVerification from './pages/auth-folder/EmailVerification'
 import AddInformation from './pages/auth-folder/AddInformation'
 import OjHelp from './pages/auth-folder/OjHelp'
 import Profile from './pages/Profile'
+import SendForgotPassCode from './pages/auth-folder/SendForgotPassCode'
+import VerifyForgotPassCode from './pages/auth-folder/VerifyForgotPassCode'
 
 const App = () => {
 
   const location = useLocation();
 
-  const hideNavbarRoutes = ['/login', '/register', '/mail-verify', '/add-information', '/oj-help'];
+  const hideNavbarRoutes = ['/login', '/register', '/mail-verify', '/add-information', '/oj-help', '/send-forgot-pass-code', '/verify-forgot-pass-code'];
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
@@ -38,6 +40,8 @@ const App = () => {
         <Route path='/mail-verify' element={<EmailVerification />}></Route>
         <Route path='/add-information' element={<AddInformation />}></Route>
         <Route path='/oj-help' element={<OjHelp />}></Route>
+        <Route path='/send-forgot-pass-code' element={<SendForgotPassCode />}></Route>
+        <Route path='/verify-forgot-pass-code' element={<VerifyForgotPassCode />}></Route>
         <Route path='/profile' element={<Profile />}></Route>
         <Route path='/contact' element={<Contact />}></Route>
       </Routes>
