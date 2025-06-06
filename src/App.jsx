@@ -31,8 +31,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/about' element={<About />}></Route>
-        <Route path='/blog' element={<BlogList />}></Route>
-        <Route path='/blog/:id' element={<SingleBlog />}></Route>
+        {/*<Route path='/blog' element={<BlogList />}></Route>*/}
+        {/*<Route path='/blog/:id' element={<SingleBlog />}></Route>*/}
         <Route path='/events' element={<UpcomingEvents />}></Route>
         <Route path='/contest' element={<ContestTracker />}></Route>
         <Route path='/register' element={<Register />}></Route>

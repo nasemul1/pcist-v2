@@ -38,7 +38,7 @@ const Navbar = () => {
           <div className='hidden lg:flex gap-5 text-sm'>
             <NavLink to='/' >Home</NavLink>
             <NavLink to='/about' >About</NavLink>
-            <NavLink to='/blog' >Blog</NavLink>
+            {/*<NavLink to='/blog' >Blog</NavLink>*/}
             <NavLink to='/events' >Events</NavLink>
             <NavLink to='/contest' >Contest Tracker</NavLink>
             {isLogged && <NavLink to='/roadmaps' >Roadmaps</NavLink>}
@@ -68,7 +68,7 @@ const Navbar = () => {
           isOpen && <div onClick={handleClick} className='absolute right-0 w-full max-w-[180px] bg-[#15191A] flex flex-col items-end p-5 gap-5 lg:hidden text-sm'>
             <NavLink to='/' >Home</NavLink>
             <NavLink to='/about' >About</NavLink>
-            <NavLink to='/gallery' >Gallery</NavLink>
+            {/*<NavLink to='/gallery' >Gallery</NavLink>*/}
             <NavLink to='/events' >Events</NavLink>
             <NavLink to='/contest' >Contest Tracker</NavLink>
             {isLogged && <NavLink to='/roadmaps' >Roadmaps</NavLink>}
