@@ -12,8 +12,8 @@ const UserContextProvider = (props) => {
 	const [isLogged, setIsLogged] = useState(false);
 	const token = localStorage.getItem('token');
 	
+	// online contest tracking
 	const [contests, setContests] = useState([]);
-
 	const [cloading, setCloading] = useState(true);
 	const [cmessage, setCmessage] = useState('');
 
@@ -21,9 +21,12 @@ const UserContextProvider = (props) => {
 		try{
 
 			const response = await axios.get(upcoming_contest_url);
-			setContests(response.data);
+			if(response.data)
+				setContests(response.data);
+			else{
+				setCmessage("Error getting contest data")
+			}
 			setCloading(false);
-
 		} catch (error) {
 			setCmessage('Error getting contest data.');
 		}
@@ -34,6 +37,36 @@ const UserContextProvider = (props) => {
 		getContestData();
 	},[]);
 
+	// events code
+	const [events, setEvents] = useState([]);
+	const [eventLoading, setEventLoading] = useState(true);
+	const [getEventMessage, setGetEventMessage] = useState('');
+
+	const getAllEvents = async () => {
+		try{
+			const response = await axios.get(
+			`${url}/event/get_all_event`,
+			)
+
+			if(response.status == 200){
+				setEvents(response.data.data);
+			}
+			else {
+				setGetEventMessage('error getting data');
+			}
+			setEventLoading(false);
+		} catch (error){
+			setEventLoading(false);
+			setGetEventMessage('Error getting event data');
+			console.log(error);
+		}
+	}
+
+	useEffect(()=>{
+		getAllEvents();
+	}, [events])
+
+	// logout handling
 	const handleLogout = () => {
 		localStorage.removeItem('slug');
 		localStorage.removeItem('token');
@@ -49,7 +82,9 @@ const UserContextProvider = (props) => {
 		upcoming_contest_url,
 		contests, setContests,
 		cmessage, setCmessage,
-		cloading, setCloading
+		cloading, setCloading,
+		events, eventLoading, getEventMessage,
+		setEvents, setEventLoading, setGetEventMessage
 	};
 
 	return (

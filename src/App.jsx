@@ -17,6 +17,12 @@ import OjHelp from './pages/auth-folder/OjHelp'
 import Profile from './pages/Profile'
 import SendForgotPassCode from './pages/auth-folder/SendForgotPassCode'
 import VerifyForgotPassCode from './pages/auth-folder/VerifyForgotPassCode'
+import AdminPanel from './pages/Admin-Panel/AdminPanel'
+import AddEvent from './pages/Admin-Panel/AddEvent'
+import ListEvents from './pages/Admin-Panel/ListEvents'
+import Members from './pages/Admin-Panel/Members'
+import RenewMembership from './pages/Admin-Panel/RenewMembership'
+import Settings from './pages/Admin-Panel/Settings'
 
 const App = () => {
 
@@ -42,6 +48,16 @@ const App = () => {
         <Route path='/oj-help' element={<OjHelp />}></Route>
         <Route path='/send-forgot-pass-code' element={<SendForgotPassCode />}></Route>
         <Route path='/verify-forgot-pass-code' element={<VerifyForgotPassCode />}></Route>
+
+        // admin
+        <Route path="/admin-panel" element={<AdminPanel />}>
+          <Route path="add" element={<AddEvent />} />
+          <Route path="list" element={<ListEvents />} />
+          <Route path="members" element={<Members />} />
+          <Route path="renew" element={<RenewMembership />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+
         <Route path='/profile' element={<Profile />}></Route>
         <Route path='/contact' element={<Contact />}></Route>
       </Routes>
