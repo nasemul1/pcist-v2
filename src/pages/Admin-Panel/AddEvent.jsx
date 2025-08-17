@@ -44,7 +44,7 @@ const AddEvent = () => {
       data.append(key, value);
     });
     if (image) {
-      data.append('image', image);
+      data.append('image1', image);
     }
 
     try {

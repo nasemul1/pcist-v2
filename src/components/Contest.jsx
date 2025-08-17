@@ -1,7 +1,4 @@
 import React, { useContext } from 'react'
-import codeforces from '../assets/logo/oj-logo/codeforces.png'
-import leetcode from '../assets/logo/oj-logo/leetcode.png'
-import codechef from '../assets/logo/oj-logo/code-chef.svg'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 
@@ -21,9 +18,6 @@ const Contest = () => {
                 { trimmedContests &&
                     trimmedContests.map((contest, index) => (
                         <div key={index} className='h-[254px] w-full md:w-[260px] flex flex-col justify-center border p-5 rounded-sm'>
-                            {contest.site == 'codeforces' && <img className='w-[160px] py-3' src={codeforces} alt="" />}
-                            {contest.site == 'leetcode' && <img className='w-[160px] py-3' src={leetcode} alt="" />}
-                            {contest.site == 'codechef' && <img className='w-[160px]' src={codechef} alt="" />}
                             <p className='mt-2 text-sm'>
                                 {new Date(contest.startTime).toLocaleDateString('en-US', {
                                     day: 'numeric',
@@ -35,6 +29,7 @@ const Contest = () => {
                                 })}
                             </p>
                             <h3 className='mt-3 text-[18px] font-medium'>{contest.title}</h3>
+                            <p className='mt-2 text-[14px] font-medium'>{contest.site}</p>
                             <a href={contest.url} className='block w-[60px] text-center mt-3 py-1 bg-orange-400 rounded-xs' target='_blank'>Visit</a>
                         </div>
                     ))

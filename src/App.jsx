@@ -32,7 +32,7 @@ const App = () => {
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
-    <div className="mx-auto max-w-[1920px] relative">
+    <div className="mx-auto relative">
       {!shouldHideNavbar && <Navbar />}
       <Routes>
         <Route path='/' element={<Home />}></Route>

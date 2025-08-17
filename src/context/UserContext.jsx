@@ -1,11 +1,13 @@
 import axios from "axios";
 import { createContext, useEffect, useRef, useState } from "react";
+import { parseStringPromise } from "xml2js";
 
 export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
 	const url = import.meta.env.VITE_BACKEND_URL;
-	const upcoming_contest_url = import.meta.env.VITE_CONTEST_URL;
+	const upcoming_contest_url = "https://clist.by/api/v4/contest/";
+	const clistApiKey = import.meta.env.VITE_CLIST_API_KEY;
 
 	const [tokenCon, setTokenCon] = useState(false);
 	const didSendCode = useRef(false); // <-- flag to prevent double send
@@ -17,21 +19,42 @@ const UserContextProvider = (props) => {
 	const [cloading, setCloading] = useState(true);
 	const [cmessage, setCmessage] = useState('');
 
+	// Updated getContestData for XML
 	const getContestData = async () => {
-		try{
+		try {
+			const nowIso = new Date().toISOString();
+			const params = {
+			start__gt: nowIso,
+			order_by: 'start',
+			limit: 20
+			};
 
-			const response = await axios.get(upcoming_contest_url);
-			if(response.data)
-				setContests(response.data);
-			else{
-				setCmessage("Error getting contest data")
-			}
+			const response = await axios.get(upcoming_contest_url, {
+			headers: {
+				'Authorization': clistApiKey
+			},
+			params
+			});
+
+			const contestList = response.data.objects || [];
+
+			const mappedContests = contestList.map(c => ({
+			title: c.event,
+			site: c.resource?.toLowerCase() || '',
+			startTime: c.start,
+			url: c.href,
+			duration: c.duration
+			}));
+
+			setContests(mappedContests);
 			setCloading(false);
-		} catch (error) {
-			setCmessage('Error getting contest data.');
-		}
 
-	}
+		} catch (error) {
+			setCmessage('Error getting contest data. Make sure your API key and username are correct.');
+			setCloading(false);
+			console.error(error);
+		}
+	};
 
 	useEffect(() => {
 		getContestData();
@@ -45,7 +68,7 @@ const UserContextProvider = (props) => {
 	const getAllEvents = async () => {
 		try{
 			const response = await axios.get(
-			`${url}/event/get_all_event`,
+			`${url}/events/get_all_event`,
 			)
 
 			if(response.status == 200){
@@ -64,7 +87,7 @@ const UserContextProvider = (props) => {
 
 	useEffect(()=>{
 		getAllEvents();
-	}, [events])
+	}, [])
 
 	// logout handling
 	const handleLogout = () => {
@@ -83,6 +106,7 @@ const UserContextProvider = (props) => {
 		contests, setContests,
 		cmessage, setCmessage,
 		cloading, setCloading,
+		getAllEvents,
 		events, eventLoading, getEventMessage,
 		setEvents, setEventLoading, setGetEventMessage
 	};

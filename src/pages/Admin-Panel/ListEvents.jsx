@@ -3,7 +3,7 @@ import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 
 const ListEvents = () => {
-  const { url, events, eventLoading, getEventMessage } = useContext(UserContext);
+  const { url, events, eventLoading, getEventMessage, getAllEvents } = useContext(UserContext);
   const slug = localStorage.getItem('slug');
   const token = localStorage.getItem('token');
 
@@ -29,6 +29,7 @@ const ListEvents = () => {
 
       // Reload or fetch events again if needed
       console.log('Event deleted successfully:', response.data);
+      getAllEvents();
 
     } catch (error) {
       if (error.response) {
@@ -171,15 +172,17 @@ const ListEvents = () => {
                 className="border p-2 rounded"
                 required
               />
-              <input
-                type="text"
+              <select
                 name="location"
                 value={currentEvent.location}
                 onChange={handleUpdateChange}
-                placeholder="Location"
-                className="border p-2 rounded"
                 required
-              />
+                className="w-full border px-3 py-2 rounded"
+              >
+                <option value="" disabled>Select Location</option>
+                <option value="Campus">Campus</option>
+                <option value="Online">Online</option>
+              </select>
               <textarea
                 name="description"
                 value={currentEvent.description}
