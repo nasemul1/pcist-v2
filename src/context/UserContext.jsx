@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createContext, useEffect, useRef, useState } from "react";
-import { parseStringPromise } from "xml2js";
 
 export const UserContext = createContext();
 
