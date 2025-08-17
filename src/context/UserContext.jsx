@@ -67,7 +67,7 @@ const UserContextProvider = (props) => {
 	const getAllEvents = async () => {
 		try{
 			const response = await axios.get(
-			`${url}/events/get_all_event`,
+			`${url}/event/get_all_event`,
 			)
 
 			if(response.status == 200){
@@ -85,7 +85,7 @@ const UserContextProvider = (props) => {
 	}
 
 	useEffect(()=>{
-		getAllEvents();
+		// getAllEvents();
 	}, [])
 
 	// logout handling

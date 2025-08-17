@@ -17,7 +17,7 @@ const Home = () => {
       <Alumni />
       <Events />
       <Contest />
-      <Blog />
+      {/* <Blog /> */}
       <JoinUs />
     </div>
   )

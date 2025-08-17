@@ -18,6 +18,13 @@ const Register = () => {
   const [passShow, setPassShow] = useState(true);
   const [message, setMessage] = useState('');
 
+  const token = localStorage.getItem('token');
+  useEffect(() => {
+    if (token) {
+      navigate('/profile');
+    }
+  }, [token, navigate]);
+
   // Auto‐hide error after 5 seconds
   useEffect(() => {
     if (!message) return;
