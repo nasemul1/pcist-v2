@@ -46,11 +46,11 @@ const Register = () => {
         localStorage.setItem('slug', response.data.slug);
         navigate('/mail-verify');
       } else {
-        setMessage('Invalid roll or password');
+        setMessage(response.data.message || 'Login failed. Please try again.');
       }
     } catch (error) {
-      console.error(error);
-      setMessage('Something went wrong. Please try again.');
+      // console.error(error);
+      setMessage(error.response?.data?.message || 'An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

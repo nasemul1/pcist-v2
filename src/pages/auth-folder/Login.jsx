@@ -33,17 +33,17 @@ const Login = () => {
 
     try {
       const response = await axios.post(url + '/user/login', { classroll, password });
-      // console.log(response.data.user.email);
+      console.log(response.data);
       if (response.data.status === true) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('slug', response.data.slug);
         navigate('/');
       } else {
-        setMessage('Invalid roll or password');
+        setMessage(response.data.message || 'Login failed. Please try again.');
       }
     } catch (error) {
-      console.error(error);
-      setMessage('Something went wrong. Please try again.');
+      // console.error(error);
+      setMessage(error.response?.data?.message || 'An error occurred. Please try again.');
     } finally{
       setLoading(false);
     }
