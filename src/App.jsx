@@ -22,6 +22,9 @@ import Members from './pages/Admin-Panel/Members'
 import Settings from './pages/Admin-Panel/Settings'
 import SingleEvent from './pages/SingleEvent'
 import UploadImages from './pages/Admin-Panel/UploadImages'
+import Contributors from './pages/Contributors'
+import Roadmap from './pages/Roadmap'
+import StudyResources from './pages/StudyResources'
 
 const App = () => {
 
@@ -36,11 +39,11 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/about' element={<About />}></Route>
-        {/*<Route path='/blog' element={<BlogList />}></Route>*/}
-        {/*<Route path='/blog/:id' element={<SingleBlog />}></Route>*/}
         <Route path='/events' element={<UpcomingEvents />}></Route>
         <Route path='/events/:id' element={<SingleEvent />}></Route>
         <Route path='/contest' element={<ContestTracker />}></Route>
+        <Route path='/roadmaps' element={<Roadmap />}></Route>
+        <Route path='/resources' element={<StudyResources />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/mail-verify' element={<EmailVerification />}></Route>
@@ -60,6 +63,7 @@ const App = () => {
 
         <Route path='/profile' element={<Profile />}></Route>
         <Route path='/contact' element={<Contact />}></Route>
+        <Route path='/contributors' element={<Contributors />}></Route>
       </Routes>
       {!shouldHideNavbar && <Footer />}
     </div>

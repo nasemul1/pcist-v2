@@ -9,7 +9,7 @@ import member1 from '../assets/Members/member-1.jpg'
 import member2 from '../assets/Members/member-2.jpg'
 import member3 from '../assets/Members/member-3.jpg'
 import member4 from '../assets/Members/member-4.jpg'
-import member5 from '../assets/Members/member-5.jpg'
+import os4 from '../assets/Members/member-5.jpg'
 
 const ClubMember = () => {
 	return (
@@ -22,6 +22,7 @@ const ClubMember = () => {
                 <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={gs} alt="" />
                 <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={js1} alt="" />
                 <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={js2} alt="" />
+                <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={os4} alt="" />
                 <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={os2} alt="" />
                 <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={os1} alt="" />
                 <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={os3} alt="" />
@@ -29,7 +30,6 @@ const ClubMember = () => {
                 <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={member1} alt="" />
                 <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={member3} alt="" />
                 <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={member4} alt="" />
-                <img className='w-full md:w-60 rounded-sm overflow-hidden border' src={member5} alt="" />
             </div>
         </div>
 	)
