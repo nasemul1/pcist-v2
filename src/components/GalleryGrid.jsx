@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const images = [
   'https://ist.edu.bd/wp-content/uploads/2021/10/NASA-Space-Apps-2015.jpg',
@@ -29,45 +30,56 @@ const GalleryGrid = () => {
 
   return (
     <div className="p-4 flex items-center justify-center">
-      {/* Image Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-w-6xl">
+      {/* Masonry Image Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-6xl">
         {images.map((src, index) => (
-          <div
+          <motion.div
             key={index}
-            className={`overflow-hidden ${
-              index === 0 ? 'row-span-2 col-span-2' : ''
-            }`}
+            layout
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: index * 0.05 }}
+            className={`overflow-hidden rounded-lg cursor-pointer shadow-md hover:shadow-xl hover:scale-105 transition-transform`}
           >
             <img
               src={src}
               alt={`gallery-${index}`}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+              className="w-full h-full object-cover"
               onClick={() => setPopupImage(src)}
             />
-          </div>
+          </motion.div>
         ))}
       </div>
 
       {/* Popup Modal */}
-      {popupImage && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-          onClick={() => setPopupImage(null)}
-        >
-          <img
-            src={popupImage}
-            alt="popup"
-            className="max-w-full max-h-full object-contain p-4"
-            onClick={(e) => e.stopPropagation()} // Prevent closing on image click
-          />
-          <button
+      <AnimatePresence>
+        {popupImage && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
             onClick={() => setPopupImage(null)}
-            className="absolute top-4 right-4 text-white text-3xl font-bold cursor-pointer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            &times;
-          </button>
-        </div>
-      )}
+            <motion.img
+              src={popupImage}
+              alt="popup"
+              className="max-w-full max-h-full object-contain p-4 rounded-lg shadow-lg"
+              onClick={(e) => e.stopPropagation()} // Prevent closing on image click
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+            <button
+              onClick={() => setPopupImage(null)}
+              className="absolute top-4 right-4 text-white text-3xl font-bold cursor-pointer"
+            >
+              &times;
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

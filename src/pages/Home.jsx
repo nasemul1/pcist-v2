@@ -6,18 +6,17 @@ import ComAbout from '../components/ComAbout'
 import Alumni from '../components/Alumni'
 import Events from '../components/Events'
 import Contest from '../components/Contest'
-import Blog from '../components/Blog'
 import JoinUs from '../components/JoinUs'
 
 const Home = () => {
   return (
-    <div className="w-full">
+    <div className="w-full bg-[#FAFAFA]">
       <Hero />
       <ComAbout />
       <Alumni />
-      <Events />
+      <Events event={"Solo"} place={"Home"}/>
+      <Events event={"Team"} place={"Home"}/>
       <Contest />
-      {/* <Blog /> */}
       <JoinUs />
     </div>
   )

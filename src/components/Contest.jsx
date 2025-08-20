@@ -11,7 +11,7 @@ const Contest = () => {
     <div className='w-full bg-gray-100 flex justify-center py-15'>
         <div className='w-full lg:w-[85%]'>
             <div className='mb-5 flex flex-col items-center gap-2'>
-                <h3 className='text-[20px] text-center font-semibold'>Online Contests Tracker</h3>
+                <h3 className='text-2xl text-center font-semibold'>Online Contests Tracker</h3>
                 <hr className='w-[240px] border border-orange-500'/>
             </div>
             <div className='px-5 flex flex-col md:flex-row justify-center gap-5'>

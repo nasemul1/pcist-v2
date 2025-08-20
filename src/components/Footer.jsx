@@ -91,7 +91,7 @@ const Footer = () => {
       </motion.div>
 
       {/* Bottom Line */}
-      <div className="w-full h-0.5 bg-gray-700 mt-8 rounded-full"></div>
+      <div className="w-full h-1 bg-gradient-to-r from-cyan-400 via-teal-400 to-purple-400 mt-8 rounded-full"></div>
 
       {/* Copyright */}
       <p className="text-gray-500 text-center mt-4 text-sm">

@@ -1,52 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-import { useNavigate } from 'react-router-dom';
 
 const AddInformation = () => {
-
   const { url } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const slug = localStorage.getItem('slug');
   const token = localStorage.getItem('token');
-
-  useEffect(() => {
-    if (!token || !slug) {
-      navigate('/login');
-    }
-  }, [token, slug, navigate]);
-
-  const checkVerification = async () => {
-
-    try{
-      const response = await axios.post(
-        `${url}/user/get-user-data`,
-        { slug },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          }
-        }
-      )
-
-      if (response.data.name) {
-        navigate('/profile');
-      }
-    }
-    catch(error){
-      const errorMsg =
-        error.response?.data?.message || 'Something went wrong.';
-      console.error('Error sending code:', error);
-      setMessage(errorMsg);
-    }
-  }
-
-  useEffect(() => {
-    checkVerification();
-  }, []);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -63,16 +25,65 @@ const AddInformation = () => {
 
   const [message, setMessage] = useState('');
 
+  // ✅ Redirect if not logged in
+  // useEffect(() => {
+  //   if (!token || !slug) {
+  //     navigate('/login');
+  //   }
+  // }, [token, slug, navigate]);
+
+  // ✅ Fetch user profile
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.post(
+        `${url}/user/get-user-data`,
+        { slug },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.data) {
+        // Prefill formData if user data exists
+        setFormData((prev) => ({
+          ...prev,
+          name: response.data.name || '',
+          phone: response.data.phone || '',
+          profileimage: response.data.profileimage || '',
+          gender: response.data.gender || '',
+          tshirt: response.data.tshirt || '',
+          batch: response.data.batch || '',
+          dept: response.data.dept || '',
+          cfhandle: response.data.cfhandle || '',
+          atchandle: response.data.atchandle || '',
+          cchandle: response.data.cchandle || '',
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      setMessage(error.response?.data?.message || 'Something went wrong.');
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  // ✅ Handle form input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // ✅ Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
 
-    if(!formData) return;
+    if (!formData) return;
 
     setLoading(true);
     try {
@@ -94,11 +105,9 @@ const AddInformation = () => {
         setMessage(response.data.message || 'Update failed.');
       }
     } catch (error) {
-      const errorMsg =
-        error.response?.data?.message || 'Something went wrong.';
-      setMessage(errorMsg);
-      console.log(error);
-    } finally{
+      setMessage(error.response?.data?.message || 'Something went wrong.');
+      console.error(error);
+    } finally {
       setLoading(false);
     }
   };
@@ -106,7 +115,10 @@ const AddInformation = () => {
   return (
     <div className="w-full h-dvh flex justify-center items-center bg-gradient-to-r from-[#C2D2E1] to-[#F9C6B0]">
       <div className="border-4 border-[#FF6900] overflow-hidden w-11/12 max-w-6xl h-[90%] text-black bg-white flex flex-col items-center justify-center rounded-lg drop-shadow-lg p-4 md:p-6">
-        <h3 className='text-xl md:text-2xl font-semibold text-center text-[#FF6900] mb-4'>Enter Your Detail Information</h3>
+        <h3 className='text-xl md:text-2xl font-semibold text-center text-[#FF6900] mb-4'>
+          Enter Your Detail Information
+        </h3>
+
         <form
           onSubmit={handleSubmit}
           className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 overflow-y-auto px-2 md:px-4"
@@ -114,25 +126,26 @@ const AddInformation = () => {
           <Input label="Full Name* " name="name" value={formData.name} onChange={handleChange} required />
           <Input label="Phone*" name="phone" value={formData.phone} onChange={handleChange} required />
           <Select label="Gender*" name="gender" value={formData.gender} onChange={handleChange} options={['Male', 'Female', 'Other']} required />
-          <Select label="T-Shirt Size*" name="tshirt" value={formData.tshirt} onChange={handleChange} options={['S', 'M', 'L', 'XL', 'XXL']} required/>
+          <Select label="T-Shirt Size*" name="tshirt" value={formData.tshirt} onChange={handleChange} options={['S', 'M', 'L', 'XL', 'XXL']} required />
           <Input label="Batch* (Ex: 28,29,30,31)" name="batch" type="number" value={formData.batch} onChange={handleChange} required />
-          <Select label="Department*" name="dept" value={formData.dept} onChange={handleChange} options={['CSE', 'EEE', 'BBA', 'DIPLOMA']} required/>
+          <Select label="Department*" name="dept" value={formData.dept} onChange={handleChange} options={['CSE', 'EEE', 'BBA', 'DIPLOMA']} required />
           <Input label="Codeforces Handle" name="cfhandle" value={formData.cfhandle} onChange={handleChange} />
-          <Input label="AtCoder Handle" name="atchandle" value={formData.atchandle} onChange={handleChange} n/>
+          <Input label="AtCoder Handle" name="atchandle" value={formData.atchandle} onChange={handleChange} />
           <Input label="CodeChef Handle" name="cchandle" value={formData.cchandle} onChange={handleChange} />
 
           <div className='flex items-center'>
-          	<Link to='/oj-help' className='text-blue-500 hover:text-red-500'>How to get Codeforces, Atcoder, CodeChef handle?</Link>
+            <Link to='/oj-help' className='text-blue-500 hover:text-red-500'>
+              How to get Codeforces, Atcoder, CodeChef handle?
+            </Link>
           </div>
 
           <div className="col-span-1 md:col-span-2 flex justify-center mt-4">
             <button
               type="submit"
               disabled={loading}
-              // onClick={handleSubmit}
               className="bg-[#FF6900] text-white font-bold py-2 px-6 rounded-md hover:bg-[#FF6900]/90 transition-all cursor-pointer"
             >
-              {loading ? 'loading...' :'Submit'}
+              {loading ? 'loading...' : 'Submit'}
             </button>
           </div>
 

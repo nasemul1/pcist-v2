@@ -4,8 +4,6 @@ import Home from './pages/Home'
 import About from './pages/About'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import BlogList from './pages/BlogList'
-import SingleBlog from './components/SingleBlog'
 import UpcomingEvents from './pages/UpcomingEvents'
 import ContestTracker from './pages/ContestTracker'
 import Contact from './pages/Contact'
@@ -21,8 +19,9 @@ import AdminPanel from './pages/Admin-Panel/AdminPanel'
 import AddEvent from './pages/Admin-Panel/AddEvent'
 import ListEvents from './pages/Admin-Panel/ListEvents'
 import Members from './pages/Admin-Panel/Members'
-import RenewMembership from './pages/Admin-Panel/RenewMembership'
 import Settings from './pages/Admin-Panel/Settings'
+import SingleEvent from './pages/SingleEvent'
+import UploadImages from './pages/Admin-Panel/UploadImages'
 
 const App = () => {
 
@@ -40,6 +39,7 @@ const App = () => {
         {/*<Route path='/blog' element={<BlogList />}></Route>*/}
         {/*<Route path='/blog/:id' element={<SingleBlog />}></Route>*/}
         <Route path='/events' element={<UpcomingEvents />}></Route>
+        <Route path='/events/:id' element={<SingleEvent />}></Route>
         <Route path='/contest' element={<ContestTracker />}></Route>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/login' element={<Login />}></Route>
@@ -54,7 +54,7 @@ const App = () => {
           <Route path="add" element={<AddEvent />} />
           <Route path="list" element={<ListEvents />} />
           <Route path="members" element={<Members />} />
-          <Route path="renew" element={<RenewMembership />} />
+          <Route path="gallery" element={<UploadImages />} />
           <Route path="settings" element={<Settings />} />
         </Route>
 

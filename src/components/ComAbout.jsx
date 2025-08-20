@@ -33,7 +33,7 @@ const ComAbout = () => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
     >
-      <div className="w-full lg:w-[85%] flex flex-col lg:flex-row gap-10 items-center">
+      <div className=" w-full lg:w-[85%] max-w-7xl flex flex-col lg:flex-row gap-10 items-center">
         
         {/* Video Section */}
         <motion.div 

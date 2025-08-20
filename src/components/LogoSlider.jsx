@@ -13,7 +13,7 @@ const logos = [micro, samsung, werner, bkash, robi, trivago, well, tw];
 
 const LogoSlider = () => {
   return (
-    <div className="relative overflow-hidden py-6 bg-gray-50">
+    <div className="mx-auto max-w-7xl relative overflow-hidden py-6 bg-gray-100">
       <motion.div
         className="flex w-max"
         animate={{ x: ['0%', '-50%'] }}

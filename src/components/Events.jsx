@@ -1,75 +1,91 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { UserContext } from '../context/UserContext'
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import { motion } from "framer-motion";
 
-const Events = () => {
+const Events = ({event, place}) => {
+  let events;
+  if(event === "Solo") {
+    const { soloEvents } = useContext(UserContext);
+    events = soloEvents;
+  } else if(event === "Team") {
+    const { teamEvents } = useContext(UserContext); 
+    events = teamEvents;
+  }
+  const trimmedEvents = events.slice(0, 3);
 
-    const { events } = useContext(UserContext);
-    const trimmedEvetns = events.slice(0, 4);
-    // console.log(trimmedEvetns);
+  // date formatting function
+  const formatDate = (dateStr) => {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   return (
-    <div className='flex items-center justify-center'>
-        <div className="py-15 w-full lg:w-[85%]">
-            <div className='mb-5 flex flex-col items-center gap-2'>
-                <h3 className='text-[20px] text-center font-semibold'>UPCOMING EVENTS</h3>
-                <hr className='w-[260px] border border-orange-500'/>
-            </div>
-            <div className='mt-10 px-5 lg:px-0 flex flex-wrap items-center justify-center gap-5'>
-            {trimmedEvetns &&    
-                trimmedEvetns.map((event, index)=>{
-                    <div key={index} className='w-full md:w-[260px] shadow-xl p-3 rounded-lg overflow-hidden'>
-                        <img className='w-full rounded-md' src={event.image} alt="" />
-                        <div className='mt-3'>
-                            <p className='text-sm'>{event.date}</p>
-                            <h3 className='text-xl font-semibold'>{event.eventName}</h3>
-                            <Link className='px-5 py-1 inline-block mt-2 text-sm rounded-xs bg-orange-500'>Register</Link>
-                        </div>
-                    </div>
-                })
-            }
-            </div>
-            <div className='mt-10 flex'>
-                <Link to="/events" className='mx-auto px-5 py-1.5 bg-gray-300 rounded-full'>See More</Link>
-            </div>
+    <div className="flex items-center justify-center bg-dark-900">
+      <div className={`${place ==='Home' ? 'py-12' : 'py-6'} w-full lg:w-[85%]`}>
+        {/* Heading */}
+        <div className="mb-5 flex flex-col items-center gap-2">
+          <h3 className="text-2xl text-center font-semibold">Upcoming {event} Events</h3>
+          <hr className="w-[240px] border border-orange-500" />
         </div>
+
+        {/* Event Cards */}
+        <div className="mt-10 px-5 lg:px-0 flex flex-wrap items-center justify-center gap-6">
+          {trimmedEvents &&
+            trimmedEvents.map((event, index) => (
+              <motion.div
+                key={event._id || index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ scale: 1.03 }}
+                className="w-full md:w-[270px] bg-white rounded-2xl shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-300"
+              >
+                <img
+                  className="w-full h-40 object-cover"
+                  src={event.images?.[0]?.url || "/placeholder.jpg"}
+                  alt={event.eventName}
+                />
+                <div className="p-4">
+                  <p className="text-sm text-gray-500">{formatDate(event.date)}</p>
+                  <h3 className="mt-2 text-lg font-semibold text-gray-800 line-clamp-2">
+                    {event.eventName}
+                  </h3>
+                  <p className="text-gray-600 text-sm mt-1 line-clamp-1">
+                    {event.description}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">📍 {event.location}</p>
+                  <Link
+                    to={`/events/${event._id}`}
+                    className="px-5 py-1 inline-block mt-3 text-sm rounded-md bg-orange-500 text-white hover:bg-orange-600 transition"
+                  >
+                    Register
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+        </div>
+
+        {/* See More */}
+        { place === "Home" &&
+          <div className="mt-12 flex">
+            <Link
+              to="/events"
+              className="mx-auto px-6 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full font-medium shadow-md transition-all"
+            >
+              See More
+            </Link>
+          </div>
+        }
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Events
-
-// <div className='mt-10 px-5 lg:px-0 flex flex-wrap items-center justify-center gap-5'>
-//     <div className='w-full md:w-[260px] shadow-xl p-3 rounded-lg overflow-hidden'>
-//         <img className='w-full rounded-md' src={coc} alt="" />
-//         <div className='mt-3'>
-//             <p className='text-sm'>17 April 2025 | Tue</p>
-//             <h3 className='text-xl font-semibold'>Clash of Codes 2025</h3>
-//             <Link className='px-5 py-1 inline-block mt-2 text-sm rounded-xs bg-orange-500'>Register</Link>
-//         </div>
-//     </div>
-//     <div className='w-full md:w-[260px] shadow-xl p-3 rounded-lg overflow-hidden'>
-//         <img className='w-full rounded-md' src={bob} alt="" />
-//         <div className='mt-3'>
-//             <p className='text-sm'>28 April 2025 | Fri</p>
-//             <h3 className='text-xl font-semibold'>Battles of Brain 2025</h3>
-//             <Link className='px-5 py-1 inline-block mt-2 text-sm rounded-xs bg-orange-500'>Register</Link>
-//         </div>
-//     </div>
-//     <div className='w-full md:w-[260px] shadow-xl p-3 rounded-lg overflow-hidden'>
-//         <img className='w-full rounded-md' src={w_ses} alt="" />
-//         <div className='mt-3'>
-//             <p className='text-sm'>13 Feb 2025 | Tue</p>
-//             <h3 className='text-xl font-semibold'>Empowering Girls in CP</h3>
-//             <button disabled className='px-5 py-1 inline-block mt-2 text-sm rounded-xs bg-orange-500 opacity-50'>Register</button>
-//         </div>
-//     </div>
-//     <div className='w-full md:w-[260px] shadow-xl p-3 rounded-lg overflow-hidden'>
-//         <img className='w-full rounded-md' src={cp_ses} alt="" />
-//         <div className='mt-3'>
-//             <p className='text-sm'>4 Feb 2025 | Tue</p>
-//             <h3 className='text-xl font-semibold'>Session on CP</h3>
-//             <button disabled className='px-5 py-1 inline-block mt-2 text-sm rounded-xs bg-orange-500 opacity-50'>Register</button>
-//         </div>
-//     </div>
-// </div>
+export default Events;

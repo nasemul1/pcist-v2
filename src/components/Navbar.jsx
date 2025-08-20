@@ -57,7 +57,7 @@ const Navbar = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -80, opacity: 0 }}
           transition={{ duration: 0.35 }}
-          className={`fixed z-20 top-0 left-1/2 -translate-x-1/2 w-full mx-auto max-w-[1920px] border-b border-white/20 shadow-md lg:rounded-xl transition-all duration-300
+          className={`fixed z-20 top-0 left-1/2 -translate-x-1/2 w-full mx-auto max-w-[1920px] border-b border-white/20 shadow-md transition-all duration-300
             ${isScrollingDown ? "bg-white" : "bg-black/70 backdrop-blur-md border border-white/20"}
           `}
         >

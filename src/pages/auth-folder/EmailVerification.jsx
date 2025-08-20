@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ist_logo from '../../assets/IST_logo.gif';
 import pcist_logo from '../../assets/vite.svg';
 import { UserContext } from '../../context/UserContext';
@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const EmailVerification = () => {
-
   const navigate = useNavigate();
   const [code, setCode] = useState('');
   const [message, setMessage] = useState('');
@@ -15,6 +14,9 @@ const EmailVerification = () => {
   const slug = localStorage.getItem('slug');
   const [loading, setLoading] = useState(false);
 
+  // ⏳ cooldown timer state
+  const [cooldown, setCooldown] = useState(120); // 2 minutes = 120 sec
+
   useEffect(() => {
     if (!token || !slug) {
       navigate('/login');
@@ -22,14 +24,13 @@ const EmailVerification = () => {
   }, [token, slug, navigate]);
 
   const sendVerificationCode = async () => {
-
     try {
       const response = await axios.post(
         `${url}/user/send-verification-email`,
-        { slug }, // sending both email and slug in the body
+        { slug },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // use Bearer token format
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         }
@@ -49,8 +50,7 @@ const EmailVerification = () => {
   };
 
   const checkVerification = async () => {
-
-    try{
+    try {
       const response = await axios.post(
         `${url}/user/get-user-data`,
         { slug },
@@ -58,33 +58,44 @@ const EmailVerification = () => {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-          }
+          },
         }
-      )
+      );
 
       if (response.data.is_email_verified === false) {
         sendVerificationCode();
       } else {
-        // setMessage(response.data.message || 'Failed to send code');
-        // console.log(error);
         navigate('/');
       }
-    }
-    catch(error){
+    } catch (error) {
       const errorMsg =
         error.response?.data?.message || 'Something went wrong.';
       console.error('Error sending code:', error);
       setMessage(errorMsg);
     }
-  }
+  };
 
   useEffect(() => {
     if (!didSendCode.current) {
       checkVerification();
-      // sendVerificationCode();
       didSendCode.current = true;
     }
   }, []);
+
+  // ⏳ countdown effect
+  useEffect(() => {
+    if (cooldown > 0) {
+      const timer = setInterval(() => {
+        setCooldown((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [cooldown]);
+
+  const handleResend = () => {
+    sendVerificationCode();
+    setCooldown(120); // reset timer for another 2 minutes
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,13 +103,13 @@ const EmailVerification = () => {
     if (!slug || !code) return;
     setLoading(true);
 
-    try{
+    try {
       const response = await axios.post(
         `${url}/user/verify-user`,
-        { slug, code }, // sending both pin and slug in the body
+        { slug, code },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // use Bearer token format
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         }
@@ -110,13 +121,12 @@ const EmailVerification = () => {
       } else {
         setMessage(response.data.message || 'Failed to verify user');
       }
-    }
-    catch(error) {
+    } catch (error) {
       const errorMsg =
         error.response?.data?.message || 'Something went wrong.';
       console.error('Error sending code:', errorMsg);
       setMessage(errorMsg);
-    } finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -137,9 +147,9 @@ const EmailVerification = () => {
           Enter the 6-digit code sent to your email
         </p>
 
-        {/*{message && (
+        {message && (
           <p className="text-center text-sm text-red-600 mb-4">{message}</p>
-        )}*/}
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col items-center">
           <input
@@ -156,17 +166,28 @@ const EmailVerification = () => {
             disabled={loading}
             className="bg-[#FF6900] hover:bg-[#FF6900]/90 text-white font-bold py-2 px-6 rounded-md transition-all duration-200"
           >
-            { loading ? 'loading...' : 'Verify'}
+            {loading ? 'loading...' : 'Verify'}
           </button>
         </form>
 
         <p className="mt-4 text-sm text-center text-gray-600">
           Didn't receive the code?{' '}
           <button
-            className="text-[#FF6900] underline"
-            onClick={sendVerificationCode}
+            className={`cursor-pointer ${
+              cooldown > 0
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'text-[#FF6900] underline hover:text-[#FF6900]/80'
+            }`}
+            onClick={handleResend}
+            disabled={cooldown > 0}
           >
-            Resend
+            {cooldown > 0
+              ? `Resend available in ${Math.floor(cooldown / 60)}:${(
+                  cooldown % 60
+                )
+                  .toString()
+                  .padStart(2, '0')}`
+              : 'Resend'}
           </button>
         </p>
       </div>

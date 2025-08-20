@@ -23,7 +23,7 @@ const Register = () => {
     if (token) {
       navigate('/profile');
     }
-  }, [token, navigate]);
+  }, []);
 
   // Auto‐hide error after 5 seconds
   useEffect(() => {

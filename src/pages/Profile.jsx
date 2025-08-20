@@ -102,11 +102,12 @@ const Profile = () => {
                   <p className="text-sm text-gray-500 mt-2">No badges achieved yet.</p>
                 </div>
 
-              { profile.role===2 && 
-                <div className='mt-5'>
-                 <Link to='/admin-panel' className='bg-slate-950 text-white px-3 py-2 rounded-sm'>Admin Panel</Link>
+                <div className='mt-5 flex gap-3'>
+                  { profile.role===2 && 
+                    <Link to='/admin-panel' className='bg-slate-950 text-white px-3 py-2 rounded-sm'>Admin Panel</Link>
+                  }
+                  <Link to='/add-information' className='bg-slate-950 text-white px-3 py-2 rounded-sm'>Update Profile</Link>
                 </div>
-              }
               </div>
             </div>}
     </div>

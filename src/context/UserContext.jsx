@@ -25,7 +25,7 @@ const UserContextProvider = (props) => {
 			const params = {
 			start__gt: nowIso,
 			order_by: 'start',
-			limit: 20
+			limit: 40
 			};
 
 			const response = await axios.get(upcoming_contest_url, {
@@ -61,31 +61,39 @@ const UserContextProvider = (props) => {
 
 	// events code
 	const [events, setEvents] = useState([]);
+	const [soloEvents, setSoloEvents] = useState([]);
+	const [teamEvents, setTeamEvents] = useState([]);
 	const [eventLoading, setEventLoading] = useState(true);
 	const [getEventMessage, setGetEventMessage] = useState('');
 
 	const getAllEvents = async () => {
-		try{
-			const response = await axios.get(
-			`${url}/event/get_all_event`,
-			)
+		try {
+			const response = await axios.get(`${url}/event/get_all_event`);
 
-			if(response.status == 200){
-				setEvents(response.data.data);
-			}
-			else {
-				setGetEventMessage('error getting data');
+			if (response.status === 200) {
+			// merge soloEvents and teamEvents into one array
+			const allEvents = [
+				...response.data.soloEvents,
+				...response.data.teamEvents,
+			];
+
+			setEvents(allEvents);
+			setSoloEvents(response.data.soloEvents);
+			setTeamEvents(response.data.teamEvents);
+			// console.log(allEvents);
+			} else {
+			setGetEventMessage("Error getting data");
 			}
 			setEventLoading(false);
-		} catch (error){
+		} catch (error) {
 			setEventLoading(false);
-			setGetEventMessage('Error getting event data');
+			setGetEventMessage("Error getting event data");
 			console.log(error);
 		}
-	}
+	};
 
 	useEffect(()=>{
-		// getAllEvents();
+		getAllEvents();
 	}, [])
 
 	// logout handling
@@ -106,7 +114,7 @@ const UserContextProvider = (props) => {
 		cmessage, setCmessage,
 		cloading, setCloading,
 		getAllEvents,
-		events, eventLoading, getEventMessage,
+		events, eventLoading, getEventMessage, soloEvents, teamEvents,
 		setEvents, setEventLoading, setGetEventMessage
 	};
 
