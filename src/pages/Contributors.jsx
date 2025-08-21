@@ -9,7 +9,7 @@ import four from '../assets/Contributors/4.jpeg';
 const contributors = [
   {
     name: 'Nasemul Islam',
-    role: 'Full Project Planner & Full Stack Contributor',
+    role: 'Project Planner & Full Stack Contributor',
     batch: '28',
     classRoll: ['21028'],
     img: one, // replace with actual image
@@ -23,7 +23,7 @@ const contributors = [
   },
   {
     name: 'Md Sazzad Hossain',
-    role: 'Frontend & Deployment Contributor',
+    role: 'Deployment Contributor',
     batch: '28',
     classRoll: ['21073'],
     img: three,
