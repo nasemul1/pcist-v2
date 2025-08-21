@@ -10,7 +10,7 @@ const SingleEvent = () => {
   const [showModal, setShowModal] = useState(false);
   const [Name, setName] = useState("");
   const [teamName, setTeamName] = useState("");
-  const [memberEmails, setMemberEmails] = useState(["", "", ""]);
+  const [members, setMembers] = useState(["", "", ""]);
   const [submitting, setSubmitting] = useState(false);
   const [eventType, setEventType] = useState("");
 
@@ -24,7 +24,7 @@ const SingleEvent = () => {
         const response = await axios.get(`${url}/event/get_one_event/${id}`);
         setEvent(response.data.data);
         setEventType(response.data.eventType)
-        console.log("Event data:", response.data);
+        // console.log("Event data:", response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching event:", error);
@@ -49,7 +49,7 @@ const SingleEvent = () => {
       if (!Name) return alert("Please enter your name.");
     } else if (eventType === "team") {
       if (!teamName) return alert("Please enter team name.");
-      if (memberEmails.some((email) => !email))
+      if (members.some((email) => !email))
         return alert("Please enter all 3 member emails.");
     }
     try {
@@ -75,11 +75,13 @@ const SingleEvent = () => {
       setShowModal(false);
       setName("");
       setTeamName("");
-      setMemberEmails(["", "", ""]);
+      setMembers(["", "", ""]);
     } catch (error) {
       console.error("Registration error:", error);
       if (error.response && error.response.status === 403) {
         alert("You are not authorized to register for this event. Please check your membership or login status.");
+      } else if (error.response && error.response.status === 404) {
+        alert("Team registration endpoint not found or event does not support team registration.");
       } else {
         alert("Registration failed. Try again.");
       }
@@ -226,16 +228,16 @@ const SingleEvent = () => {
                   onChange={(e) => setTeamName(e.target.value)}
                   className="border border-gray-300 rounded-md px-4 py-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
-                {memberEmails.map((email, idx) => (
+                {members.map((email, idx) => (
                   <input
                     key={idx}
                     type="email"
                     placeholder={`Member ${idx + 1} Email`}
                     value={email}
                     onChange={(e) => {
-                      const updated = [...memberEmails];
+                      const updated = [...members];
                       updated[idx] = e.target.value;
-                      setMemberEmails(updated);
+                      setMembers(updated);
                     }}
                     className="border border-gray-300 rounded-md px-4 py-2 w-full mb-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
@@ -248,7 +250,7 @@ const SingleEvent = () => {
                   setShowModal(false);
                   setName("");
                   setTeamName("");
-                  setMemberEmails(["", "", ""]);
+                  setMembers(["", "", ""]);
                 }}
                 className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 transition"
               >

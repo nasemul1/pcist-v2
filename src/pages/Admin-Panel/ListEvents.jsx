@@ -20,6 +20,10 @@ const ListEvents = () => {
 
   const [deleteMessage, setDeleteMessage] = useState("");
 
+  const [membersModalOpen, setMembersModalOpen] = useState(false);
+  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [selectedEventName, setSelectedEventName] = useState("");
+
   // DELETE EVENT
   const handleDelete = async (id) => {
     try {
@@ -100,6 +104,13 @@ const ListEvents = () => {
     }
   };
 
+  // Open members modal
+  const openMembersModal = (event) => {
+    setSelectedMembers(event.registeredMembers || []);
+    setSelectedEventName(event.eventName || "");
+    setMembersModalOpen(true);
+  };
+
   return (
     <div className="bg-white p-4 md:p-6 rounded-lg max-w-5xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-center">All Events</h2>
@@ -150,7 +161,7 @@ const ListEvents = () => {
                 <p className="text-sm text-gray-600 mb-2">{event.description}</p>
               </div>
 
-              <div className="flex gap-x-5 mt-4">
+              <div className="flex flex-col lg:flex-row gap-3 mt-4">
                 <button
                   onClick={() => openUpdateModal(event)}
                   className="bg-slate-900 text-white px-3 py-1 rounded cursor-pointer transition"
@@ -163,10 +174,59 @@ const ListEvents = () => {
                 >
                   Delete
                 </button>
+                <button
+                  onClick={() => openMembersModal(event)}
+                  className="bg-green-600 text-white px-3 py-1 rounded cursor-pointer transition"
+                >
+                  View Registered Members
+                </button>
               </div>
             </div>
           ))}
       </div>
+
+      {/* MEMBERS MODAL */}
+      {membersModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg w-96 relative">
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              Registered Members for "{selectedEventName}"
+            </h2>
+            {selectedMembers.length === 0 ? (
+              <p className="text-gray-600 text-center">No members registered.</p>
+            ) : (
+              <table className="w-full text-sm border">
+                <thead>
+                  <tr>
+                    <th className="border px-2 py-1">Class Roll</th>
+                    <th className="border px-2 py-1">Name</th>
+                    <th className="border px-2 py-1">Payment Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedMembers.map((m, idx) => (
+                    <tr key={m._id || idx}>
+                      <td className="border px-2 py-1">{m.classroll || "-"}</td>
+                      <td className="border px-2 py-1">{m.Name || m.name || "-"}</td>
+                      <td className="border px-2 py-1">
+                        {m.paymentStatus ? "Paid" : "Pending"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={() => setMembersModalOpen(false)}
+                className="bg-gray-500 text-white px-4 py-2 rounded"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* UPDATE MODAL */}
       {isModalOpen && (
