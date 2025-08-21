@@ -8,8 +8,11 @@ const SingleEvent = () => {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [name, setName] = useState("");
+  const [Name, setName] = useState("");
+  const [teamName, setTeamName] = useState("");
+  const [memberEmails, setMemberEmails] = useState(["", "", ""]);
   const [submitting, setSubmitting] = useState(false);
+  const [eventType, setEventType] = useState("");
 
   const url = import.meta.env.VITE_BACKEND_URL;
   const slug = localStorage.getItem("slug");
@@ -20,7 +23,8 @@ const SingleEvent = () => {
       try {
         const response = await axios.get(`${url}/event/get_one_event/${id}`);
         setEvent(response.data.data);
-        console.log("Event data:", response.data.data);
+        setEventType(response.data.eventType)
+        console.log("Event data:", response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching event:", error);
@@ -41,19 +45,44 @@ const SingleEvent = () => {
     });
 
   const handleRegister = async () => {
-    if (!name) return alert("Please enter your name.");
+    if (eventType === "solo") {
+      if (!Name) return alert("Please enter your name.");
+    } else if (eventType === "team") {
+      if (!teamName) return alert("Please enter team name.");
+      if (memberEmails.some((email) => !email))
+        return alert("Please enter all 3 member emails.");
+    }
     try {
       setSubmitting(true);
-      await axios.post(
-        `${url}/event/register_for_solo_event/${id}`,
-        { name, slug },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      if (eventType === "solo") {
+        await axios.post(
+          `${url}/event/register_for_solo_event/${id}`,
+          { Name, slug },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      } else if (eventType === "team") {
+        await axios.post(
+          `${url}/event/register_for_team_event/${id}`,
+          {
+            teamName,
+            members,
+            slug,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
       alert("Registered successfully!");
       setShowModal(false);
+      setName("");
+      setTeamName("");
+      setMemberEmails(["", "", ""]);
     } catch (error) {
       console.error("Registration error:", error);
-      alert("Registration failed. Try again.");
+      if (error.response && error.response.status === 403) {
+        alert("You are not authorized to register for this event. Please check your membership or login status.");
+      } else {
+        alert("Registration failed. Try again.");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -178,16 +207,49 @@ const SingleEvent = () => {
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Register for {event.eventName}
             </h2>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="border border-gray-300 rounded-md px-4 py-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
+            {eventType === "solo" ? (
+              <>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={Name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="border border-gray-300 rounded-md px-4 py-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </>
+            ) : (
+              <>
+                <input
+                  type="text"
+                  placeholder="Enter team name"
+                  value={teamName}
+                  onChange={(e) => setTeamName(e.target.value)}
+                  className="border border-gray-300 rounded-md px-4 py-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+                {memberEmails.map((email, idx) => (
+                  <input
+                    key={idx}
+                    type="email"
+                    placeholder={`Member ${idx + 1} Email`}
+                    value={email}
+                    onChange={(e) => {
+                      const updated = [...memberEmails];
+                      updated[idx] = e.target.value;
+                      setMemberEmails(updated);
+                    }}
+                    className="border border-gray-300 rounded-md px-4 py-2 w-full mb-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                ))}
+              </>
+            )}
             <div className="flex justify-end gap-2">
               <button
-                onClick={() => setShowModal(false)}
+                onClick={() => {
+                  setShowModal(false);
+                  setName("");
+                  setTeamName("");
+                  setMemberEmails(["", "", ""]);
+                }}
                 className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 transition"
               >
                 Cancel

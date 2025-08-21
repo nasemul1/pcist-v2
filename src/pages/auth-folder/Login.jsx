@@ -33,7 +33,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(url + '/user/login', { classroll, password });
-      console.log(response.data);
+      
       if (response.data.status === true) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('slug', response.data.slug);

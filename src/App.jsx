@@ -25,6 +25,7 @@ import UploadImages from './pages/Admin-Panel/UploadImages'
 import Contributors from './pages/Contributors'
 import Roadmap from './pages/Roadmap'
 import StudyResources from './pages/StudyResources'
+import RegistrationDetails from './pages/Admin-Panel/RegistrationDetails'
 
 const App = () => {
 
@@ -59,6 +60,7 @@ const App = () => {
           <Route path="members" element={<Members />} />
           <Route path="gallery" element={<UploadImages />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="registration-details" element={<RegistrationDetails />} />
         </Route>
 
         <Route path='/profile' element={<Profile />}></Route>
