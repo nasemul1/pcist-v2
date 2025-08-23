@@ -1,32 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const images = [
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NASA-Space-Apps-2015.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/ACM-ICPC-1.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NGPC-IUPC.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NASA-Space-Apps-2015_3.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/Google-DEV-FEST-2015.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NCPC-2018.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/12219517_10205395078617979_8315097649185331553_n.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NASA-Space-Apps-2016.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NGPC-2018-Position-18th.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NGPC-2019_2-.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NCPC-2015.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/National-Hackathon-2014.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/Power-Energy-Hackathon-2017.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NGPC-2017.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NASA-Space-Apps-2017.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/NASA-Space-Apps-2015_2.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/IUT-IUPC-2015.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/BUET-IUPC-2018.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/Code-Warriors-Challenge-Runner-Up-2015_1.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/IUGPC-2018.jpg',
-  'https://ist.edu.bd/wp-content/uploads/2021/10/Code-Warriors-Challenge-Runner-Up-2015.jpg'
-];
+import { UserContext } from '../context/UserContext';
 
 const GalleryGrid = () => {
+  const [images, setImages] = useState([]);
   const [popupImage, setPopupImage] = useState(null);
+  const { url } = useContext(UserContext);
+
+  // Fetch images from API
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await fetch(url+'/event/fetch_gallery_images'); // replace 'url' with your base API
+        const data = await response.json();
+        console.log('Fetched images:', data);
+        if (data.images) {
+          // Map to just URLs for simplicity
+          setImages(data.images.map(img => img.url));
+        }
+      } catch (error) {
+        console.error('Failed to fetch images:', error);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   return (
     <div className="p-4 flex items-center justify-center">
@@ -39,7 +37,7 @@ const GalleryGrid = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: index * 0.05 }}
-            className={`overflow-hidden rounded-lg cursor-pointer shadow-md hover:shadow-xl hover:scale-105 transition-transform`}
+            className="overflow-hidden rounded-lg cursor-pointer shadow-md hover:shadow-xl hover:scale-105 transition-transform"
           >
             <img
               src={src}
@@ -65,7 +63,7 @@ const GalleryGrid = () => {
               src={popupImage}
               alt="popup"
               className="max-w-full max-h-full object-contain p-4 rounded-lg shadow-lg"
-              onClick={(e) => e.stopPropagation()} // Prevent closing on image click
+              onClick={(e) => e.stopPropagation()}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
