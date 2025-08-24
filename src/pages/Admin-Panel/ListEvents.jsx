@@ -22,6 +22,7 @@ const ListEvents = () => {
 
   const [membersModalOpen, setMembersModalOpen] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [selectedTeams, setSelectedTeams] = useState([]); // For team events
   const [selectedEventName, setSelectedEventName] = useState("");
 
   // DELETE EVENT
@@ -106,7 +107,13 @@ const ListEvents = () => {
 
   // Open members modal
   const openMembersModal = (event) => {
-    setSelectedMembers(event.registeredMembers || []);
+    if (event.registeredTeams) {
+      setSelectedTeams(event.registeredTeams || []);
+      setSelectedMembers([]);
+    } else if(event.registeredMembers) {
+      setSelectedMembers(event.registeredMembers || []);
+      setSelectedTeams([]);
+    }
     setSelectedEventName(event.eventName || "");
     setMembersModalOpen(true);
   };
@@ -192,10 +199,9 @@ const ListEvents = () => {
             <h2 className="text-xl font-semibold mb-4 text-center">
               Registered Members for "{selectedEventName}"
             </h2>
-            {selectedMembers.length === 0 ? (
-              <p className="text-gray-600 text-center">No members registered.</p>
-            ) : (
-              <table className="w-full text-sm border">
+            {/* SOLO EVENT MEMBERS */}
+            {selectedMembers.length > 0 && (
+              <table className="w-full text-sm border mb-4">
                 <thead>
                   <tr>
                     <th className="border px-2 py-1">Class Roll</th>
@@ -215,6 +221,42 @@ const ListEvents = () => {
                   ))}
                 </tbody>
               </table>
+            )}
+            {/* TEAM EVENT MEMBERS */}
+            {selectedTeams.length > 0 && (
+              <div>
+                {selectedTeams.map((team, tIdx) => (
+                  <div key={team._id || tIdx} className="mb-6">
+                    <h3 className="font-semibold mb-2 text-green-700">
+                      Team: {team.teamName}
+                    </h3>
+                    <table className="w-full text-sm border mb-2">
+                      <thead>
+                        <tr>
+                          <th className="border px-2 py-1">Class Roll</th>
+                          <th className="border px-2 py-1">Name</th>
+                          <th className="border px-2 py-1">Payment Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {team.members.map((m, idx) => (
+                          <tr key={m._id || idx}>
+                            <td className="border px-2 py-1">{m.classroll || "-"}</td>
+                            <td className="border px-2 py-1">{m.Name || m.name || "-"}</td>
+                            <td className="border px-2 py-1">
+                              {m.paymentStatus ? "Paid" : "Pending"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+            )}
+            {/* No members fallback */}
+            {selectedMembers.length === 0 && selectedTeams.length === 0 && (
+              <p className="text-gray-600 text-center">No members registered.</p>
             )}
             <div className="flex justify-end mt-4">
               <button

@@ -15,7 +15,7 @@ const SingleEvent = () => {
   const [eventType, setEventType] = useState("");
 
   const url = import.meta.env.VITE_BACKEND_URL;
-  const slug = localStorage.getItem("slug");
+  const slug = Number(localStorage.getItem("slug")); // Ensure slug is a number
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const SingleEvent = () => {
         const response = await axios.get(`${url}/event/get_one_event/${id}`);
         setEvent(response.data.data);
         setEventType(response.data.eventType)
-        // console.log("Event data:", response.data);
+        console.log(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching event:", error);
@@ -61,11 +61,12 @@ const SingleEvent = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
       } else if (eventType === "team") {
+        const filteredMembers = members.filter((email) => email); // Remove empty strings
         await axios.post(
           `${url}/event/register_for_team_event/${id}`,
           {
             teamName,
-            members,
+            members: filteredMembers,
             slug,
           },
           { headers: { Authorization: `Bearer ${token}` } }
@@ -82,6 +83,8 @@ const SingleEvent = () => {
         alert("You are not authorized to register for this event. Please check your membership or login status.");
       } else if (error.response && error.response.status === 404) {
         alert("Team registration endpoint not found or event does not support team registration.");
+      } else if (error.response && error.response.status === 400) {
+        alert(error.response.data?.message || "Bad Request. Please check your input.");
       } else {
         alert("Registration failed. Try again.");
       }
