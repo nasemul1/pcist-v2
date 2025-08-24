@@ -3,6 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { IoMdAddCircleOutline, IoIosPeople } from "react-icons/io";
 import { MdEventAvailable, MdOutlineAutorenew } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
+import { CiMemoPad } from "react-icons/ci";
 
 
 
@@ -43,6 +44,12 @@ const AdminPanel = () => {
                 <MdOutlineAutorenew />
                 <p className='hidden md:block'>Registration Details</p>
             </NavLink> */}
+
+            <NavLink className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-1" to="/admin-panel/pad-generation">
+                {/*<img className='w-5 h-5' src={} alt="" />*/}
+                <CiMemoPad />
+                <p className='hidden md:block'>Pad Generation</p>
+            </NavLink>
 
             <NavLink className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-1" to="/admin-panel/settings">
                 {/*<img className='w-5 h-5' src={} alt="" />*/}

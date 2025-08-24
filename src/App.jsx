@@ -26,6 +26,7 @@ import Contributors from './pages/Contributors'
 import Roadmap from './pages/Roadmap'
 import StudyResources from './pages/StudyResources'
 import RegistrationDetails from './pages/Admin-Panel/RegistrationDetails'
+import PadGeneration from './pages/Admin-Panel/PadGeneration'
 
 const App = () => {
 
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="members" element={<Members />} />
           <Route path="gallery" element={<UploadImages />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="pad-generation" element={<PadGeneration />} />
           <Route path="registration-details" element={<RegistrationDetails />} />
         </Route>
 
